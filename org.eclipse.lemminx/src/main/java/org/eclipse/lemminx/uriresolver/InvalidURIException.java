@@ -30,11 +30,7 @@ public class InvalidURIException extends CacheResourceException {
 
 		ILLEGAL_SYNTAX("The ''{0}'' URI cannot be parsed: {1}"),
 		
-		INVALID_PATH("''{0}'' does not resolve to a valid URI."),
-		
-		UNSUPPORTED_PROTOCOL("Unsupported ''{1}'' protocol in ''{0}''"),
-		
-		INSECURE_REDIRECTION("Redirection from ''{0}'' to insecure ''{1}'' is forbidden");
+		INVALID_PATH("''{0}'' does not resolve to a valid URI.");
 
 		private final String rawMessage;
 
@@ -55,19 +51,9 @@ public class InvalidURIException extends CacheResourceException {
 		this.errorCode = errorCode;
 	}
 
-	public InvalidURIException(String resourceURI, InvalidURIError errorCode, String... arguments) {
-		super(resourceURI, errorCode.getMessage(combine(resourceURI, arguments)));
+	public InvalidURIException(String resourceURI, InvalidURIError errorCode) {
+		super(resourceURI, errorCode.getMessage(resourceURI));
 		this.errorCode = errorCode;
-	}
-
-	private static Object[] combine(String resourceURI, String[] arguments) {
-		if (arguments == null || arguments.length == 0) {
-			return new Object[]{resourceURI};
-		}
-		String[] newArr = new String[arguments.length + 1];
-		System.arraycopy(arguments, 0, newArr, 1, arguments.length);
-		newArr[0] = resourceURI;
-		return newArr;
 	}
 
 	public InvalidURIError getErrorCode() {
